@@ -10,5 +10,8 @@ CPP_FUNCS="['_manipArr', '_fib', '_doubler', '_greyScale']"
 
 echo "compiling C++ ..."
 emcc -o cMath.js math.cpp -lm -O3 -s WASM=1 \
--s BINARYEN_IMPRECISE=1 -s "BINARYEN_METHOD='native-wasm,asmjs'" \
+-s BINARYEN_IMPRECISE=1 -s \
 -s EXPORTED_FUNCTIONS="$CPP_FUNCS" \
+#emcc -o cMath.js math.cpp -lm -O3 -s WASM=1 \
+#-s BINARYEN_IMPRECISE=1 -s "BINARYEN_METHOD='native-wasm,asmjs'" \
+#-s EXPORTED_FUNCTIONS="$CPP_FUNCS" \
