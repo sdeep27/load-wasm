@@ -140,5 +140,11 @@ header {
 .header {
   display: inline;
 }
-
+#c3 {
+  position: absolute;
+  top: 155;
+  left: 785;
+  border: 1px white solid;
+  z-index: 100;
+}
 

@@ -28,6 +28,8 @@ loadWASM()
 
 function disableJS() {
   jsActive = !jsActive;
+  let mini = document.getElementById('miniCanvas');
+  document.body.removeChild(mini);
   if (!jsActive) document.getElementById('jsButton').innerHTML = 'Enable JavaScript';
   else document.getElementById('jsButton').innerHTML = 'Disable JavaScript';
 }
@@ -94,8 +96,33 @@ vid2.addEventListener("loadeddata", function() {
   canvas2.setAttribute('width', vid2.videoWidth);
   cw2 = canvas2.clientWidth; //usually same as canvas.height
   ch2 = canvas2.clientHeight;
+  //context2.scale(0.25,0.25);
   draw2();
 });
+
+let cw3, ch3;
+var vid3 = document.getElementById('v3');
+var canvas3 = document.getElementById('c3');
+var context3 = canvas3.getContext('2d');
+vid3.addEventListener("loadeddata", function() {
+  canvas3.setAttribute('height', vid3.videoHeight/4);
+  canvas3.setAttribute('width', vid3.videoWidth/4);
+  context3.scale(0.25,0.25);
+  cw3 = canvas3.clientWidth; //usually same as canvas.height
+  ch3 = canvas3.clientHeight;
+  draw3();
+});
+
+function draw3(){
+  context3.drawImage(vid3, 0, 0);
+  pixels3 = context3.getImageData(0, 0, vid3.videoWidth/4, vid3.videoHeight/4);
+  if (filter !== 'Normal') {
+    setPixels(filter, 'js', true);
+  }
+  context3.putImageData(pixels3, 0, 0);
+  requestAnimationFrame(draw3);
+}
+
 
 function draw() {
   if (vid.paused) return false;
@@ -345,7 +372,7 @@ function appendWasmCheck () {
 }
 
 
-function setPixels (filter, language) {
+function setPixels (filter, language, three) {
   if (language === 'wasm') {
     let kernel, divisor;
     switch (filter) {
@@ -386,6 +413,45 @@ function setPixels (filter, language) {
       case 'Robbery': pixels.data.set(wam.robbery(pixels.data, cw)); break;
     }
   } else if (jsActive) {
+    if(three) {
+      switch (filter) {
+      case 'Grayscale': pixels3.data.set(wam.grayScale(pixels3.data)); break;
+      case 'Brighten': pixels3.data.set(wam.brighten(pixels3.data)); break;
+      case 'Invert': pixels3.data.set(wam.invert(pixels3.data)); break;
+      case 'Noise': pixels3.data.set(wam.noise(pixels3.data)); break;
+      case 'Sunset': pixels3.data.set(wam.sunset(pixels3.data, cw3)); break;
+      case 'Analog TV': pixels3.data.set(wam.analog(pixels3.data, cw3)); break;
+      case 'Emboss': pixels3.data.set(wam.emboss(pixels3.data, cw3)); break;
+      case 'Super Edge': pixels3.data.set(wam.sobelFilter(pixels3.data, cw3, ch3)); break;
+      case 'Super Edge Inv': pixels3.data.set(wam.sobelFilter(pixels3.data, cw3, ch3, true)); break;
+      case 'Gaussian Blur': pixels3.data.set(wam.blur(pixels3.data, cw3, ch3));break;
+      case 'Sharpen': pixels3.data.set(wam.sharpen(pixels3.data, cw3, ch3)); break;
+      case 'Uber Sharpen': pixels3.data.set(wam.strongSharpen(pixels3.data, cw3, ch3)); break;
+      case 'Clarity': pixels3.data.set(wam.clarity(pixels3.data, cw3, ch3)); break;
+      case 'Good Morning': pixels3.data.set(wam.goodMorning(pixels3.data, cw3, ch3)); break;
+      case 'Acid': pixels3.data.set(wam.acid(pixels3.data, cw3, ch3)); break;
+      case 'Urple': pixels3.data.set(wam.urple(pixels3.data, cw3)); break;
+      case 'Forest': pixels3.data.set(wam.forest(pixels3.data, cw3)); break;
+      case 'Romance': pixels3.data.set(wam.romance(pixels3.data, cw3)); break;
+      case 'Hippo': pixels3.data.set(wam.hippo(pixels3.data, cw3)); break;
+      case 'Longhorn': pixels3.data.set(wam.longhorn(pixels3.data, cw3)); break;
+      case 'Underground': pixels3.data.set(wam.underground(pixels3.data, cw3)); break;
+      case 'Rooster': pixels3.data.set(wam.rooster(pixels3.data, cw3)); break;
+      case 'Mist': pixels3.data.set(wam.mist(pixels3.data, cw3)); break;
+      case 'Moss': pixels3.data.set(wam.mist(pixels3.data, cw3)); break;
+      case 'Tingle': pixels3.data.set(wam.tingle(pixels3.data, cw3)); break;
+      case 'Kaleidoscope': pixels3.data.set(wam.tingle(pixels3.data, cw3)); break;
+      case 'Bacteria': pixels3.data.set(wam.bacteria(pixels3.data, cw3)); break;
+      case 'Dewdrops': pixels3.data.set(wam.dewdrops(pixels3.data, cw3, ch3)); break;
+      case 'Color Destruction': pixels3.data.set(wam.destruction(pixels3.data, cw3, ch3)); break;
+      case 'Hulk Edge': pixels3.data.set(wam.hulk(pixels3.data, cw3)); break;
+      case 'Ghost': pixels3.data.set(wam.ghost(pixels3.data, cw3)); break;
+      case 'Swamp': pixels3.data.set(wam.twisted(pixels3.data, cw3)); break;
+      case 'Twisted': pixels3.data.set(wam.twisted(pixels3.data, cw3)); break;
+      case 'Security': pixels3.data.set(wam.security(pixels3.data, cw3)); break;
+      case 'Robbery': pixels3.data.set(wam.security(pixels3.data, cw3)); break;
+    }
+    }
     switch (filter) {
       case 'Grayscale': pixels2.data.set(js_grayScale(pixels2.data)); break;
       case 'Brighten': pixels2.data.set(js_brighten(pixels2.data)); break;
