@@ -105,9 +105,9 @@ var vid3 = document.getElementById('v3');
 var canvas3 = document.getElementById('c3');
 var context3 = canvas3.getContext('2d');
 vid3.addEventListener("loadeddata", function() {
-  canvas3.setAttribute('height', vid3.videoHeight/4);
-  canvas3.setAttribute('width', vid3.videoWidth/4);
-  context3.scale(0.25,0.25);
+  canvas3.setAttribute('height', vid3.videoHeight/3.125);
+  canvas3.setAttribute('width', vid3.videoWidth/3.125);
+  context3.scale(0.32,0.32);
   cw3 = canvas3.clientWidth; //usually same as canvas.height
   ch3 = canvas3.clientHeight;
   draw3();
@@ -115,7 +115,7 @@ vid3.addEventListener("loadeddata", function() {
 
 function draw3(){
   context3.drawImage(vid3, 0, 0);
-  pixels3 = context3.getImageData(0, 0, vid3.videoWidth/4, vid3.videoHeight/4);
+  pixels3 = context3.getImageData(0, 0, vid3.videoWidth/3.125, vid3.videoHeight/3.125);
   if (filter !== 'Normal') {
     setPixels(filter, 'js', true);
   }
@@ -289,7 +289,7 @@ function graphStats () {
     percent = Math.round(((perf2 - perf1) / perf1) * 100);
   }
   if (filter !== 'Normal' && jsActive) {
-    speedDiv.innerText = `Performance Comparison: WASM is currently ${percent}% faster than JS`;
+    speedDiv.innerHTML = `Performance Comparison: WASM is currently <span style="color: lightgreen;"> ${percent}% </span> faster than JS`;
   }
   else speedDiv.innerText = 'Performance Comparison';
 

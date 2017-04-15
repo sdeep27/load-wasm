@@ -2,7 +2,7 @@
 * {
   font-family: "Montserrat", sans-serif;
   background-color: #232323;
-  color: grey;
+  color: white;
   /*border: 1px solid #333333;*/
 }
 header h1, .wasmCheck {
@@ -79,7 +79,7 @@ header {
   color: silver;
 }
 .selectedFilter {
-  background-color: #1d2544;
+  background-color: red;
 }
 
 #controls, #timing {
@@ -142,8 +142,8 @@ header {
 }
 #c3 {
   position: absolute;
-  top: 155;
-  left: 785;
+  top: 153;
+  left: 736;
   border: 1px white solid;
   z-index: 100;
 }
